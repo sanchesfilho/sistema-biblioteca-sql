@@ -6,7 +6,7 @@
 -- DATA: 26/11/2025
 
 -- =============================================
--- COMANDOS UPDATE
+-- COMANDOS "UPDATE"
 -- =============================================
 
 -- UPDATE 1: REAJUSTE DE VALOR DE MULTA PARA ATRASOS CRÍTICOS
@@ -46,7 +46,7 @@ WHERE EXISTS (                                                       -- VERIFICA
 );
 
 -- =============================================
--- COMANDOS DELETE
+-- COMANDOS "DELETE"
 -- =============================================
 
 -- DELETE 1: PURGA DE REGISTROS DE MULTAS ANTIGAS (PRINCÍPIO DA MINIMIZAÇÃO - LGPD)
