@@ -255,7 +255,7 @@ FROM (VALUES                                                                    
      'hmvjaxkmWoQl3CZazE54c5gkQo8xEHyR', '5c93a8bd1237eab4d691a92c58d2047f83610a6f39b7f7e46b29f5bd3e1289fa', 'Bibliotecário'),
      
     (true, 'Thiago Galhardo', 'thiago.galhardo@biblioteca.com', 'thiago.galhardo',
-     '9c51ad0jHqDHz2641C3SUXbajkoeLqhm0WkcaA3e88', '1f8b5a7d35ac403fd418e2c3d6bba90ea7d92bd56e41c873ea2457b62012c9f8', 'Estagiário'),
+     'cNRAKV5MzyXRDA2m3Oek85kGK0hhuQTT', '1f8b5a7d35ac403fd418e2c3d6bba90ea7d92bd56e41c873ea2457b62012c9f8', 'Estagiário'),
     
     (true, 'Carolina Montebello', 'carolina.montebello@biblioteca.com', 'carolina.montebello',
      'e46w10DDwYLwkmLZpxrytAhUdZmG39pt', 'a74b215f3796fe82a3f8c4df4d928b7e8ab98fb2f421b31d9c873f67b03c6bbd', 'Estagiário')
