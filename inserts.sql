@@ -115,16 +115,16 @@ SELECT                                                                          
     dataset.data_nasc,                                                            -- DATA NASCIMENTO
     e.id                                                                          -- ID ENDEREÇO (RESOLVIDO VIA JOIN)
 FROM (VALUES                                                                      -- DADOS EMBUTIDOS: USUÁRIOS
-    ('USR20250001', true,  'João Velloso',     'joao.velloso@email.com',     '5511999981234', DATE '1990-05-15', 'Rua das Flores', '123'),
+    ('USR20250001', true,  'João Velloso',     'joao.velloso@email.com',     '5511999981234', DATE '2010-05-15', 'Rua das Flores', '123'),
     ('USR20250002', true,  'Marina Cascudo',   'marina.cascudo@email.com',   '5511888875678', DATE '1985-08-22', 'Avenida Paulista', '456'),
     ('USR20250003', true,  'Pedro Ventosa',    'pedro.ventosa@email.com',    '5511777769012', DATE '1992-12-10', 'Rua Augusta', '789'),
-    ('USR20250004', false, 'Ana Figueira',     'ana.figueira@email.com',     '5511666653456', DATE '1988-03-30', 'Alameda Santos', '321'),
+    ('USR20250004', false, 'Ana Figueira',     'ana.figueira@email.com',     '5511666653456', DATE '2004-03-30', 'Alameda Santos', '321'),
     ('USR20250005', true,  'Carlos Sereno',    'carlos.sereno@email.com',    '5511555547890', DATE '1995-07-18', 'Praça da Sé', '654'),
     ('USR20250006', true,  'Bruno Castanho',   'bruno.castanho@email.com',   '5511999345678', DATE '1991-09-12', 'Rua da Consolação', '112'),
     ('USR20250007', true,  'Laura Ventura',    'laura.ventura@email.com',    '5511987654321', DATE '1993-11-03', 'Avenida Brigadeiro Faria Lima', '950'),
     ('USR20250008', false, 'Felipe Guimarães', 'felipe.guimaraes@email.com', '5511976543210', DATE '1989-04-27', 'Rua Oscar Freire', '77'),
-    ('USR20250009', true,  'Renata Silveira',  'renata.silveira@email.com',  '5511965432109', DATE '1994-02-19', 'Travessa Doutor Mário Vinagre', '210'),
-    ('USR20250010', true,  'Eduardo Fontana',  'eduardo.fontana@email.com',  '5511954321098', DATE '1990-12-01', 'Rua Haddock Lobo', '350')
+    ('USR20250009', true,  'Renata Silveira',  'renata.silveira@email.com',  '5511965432109', DATE '2000-02-19', 'Travessa Doutor Mário Vinagre', '210'),
+    ('USR20250010', true,  'Eduardo Fontana',  'eduardo.fontana@email.com',  '5511954321098', DATE '1999-12-01', 'Rua Haddock Lobo', '350')
 ) AS dataset(cart_num, status, nome, email, tel, data_nasc, rua_endereco, numero_endereco)       -- ALIAS TABELA VIRTUAL
 JOIN endereco_lookup e ON e.rua = dataset.rua_endereco AND e.numero = dataset.numero_endereco;   -- JOIN PARA RESOLUÇÃO FK ENDEREÇO
 
