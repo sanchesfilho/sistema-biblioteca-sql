@@ -59,7 +59,7 @@ AND valor < 50;                                                      -- VALOR IN
 DELETE FROM emprestimo e                                             -- REMOVE DA TABELA DE EMPRÉSTIMOS
 WHERE e.status = false                                               -- EMPRÉSTIMOS FINALIZADOS
 AND e.dev_real IS NOT NULL                                           -- DEVOLUÇÃO REGISTRADA
-AND e.dev_real < CURRENT_DATE - INTERVAL '3 years'                   -- DEVOLUÇÃO ANTERIOR A 3 ANOS
+AND e.dev_real < CURRENT_DATE - INTERVAL '1 year'                    -- DEVOLUÇÃO ANTERIOR A 1 ANO
 AND NOT EXISTS (                                                     -- VERIFICA AUSÊNCIA DE MULTAS PENDENTES
     SELECT 1                                                         -- PROJEÇÃO OTIMIZADA PARA VERIFICAÇÃO
     FROM multa m                                                     -- TABELA DE MULTAS
