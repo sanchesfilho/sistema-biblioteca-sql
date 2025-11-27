@@ -249,15 +249,15 @@ SELECT                                                                          
     c.id                                                                                      -- ID CARGO (RESOLVIDO VIA JOIN)
 FROM (VALUES                                                                                  -- DADOS EMBUTIDOS: FUNCIONÁRIOS
     (true, 'Roberto Alves', 'roberto.alves@biblioteca.com', 'roberto.alves',
-     'b7f93a1c5e', '2a6c3dbb186b1e984c4419a5e7f3d28d9f7ce9371e72e51808f4743d56e2a91c', 'Administrador'),
+     'ZiBcI7Zo8R0xaSntOiyzZXDmlGchlzZz', '2a6c3dbb186b1e984c4419a5e7f3d28d9f7ce9371e72e51808f4743d56e2a91c', 'Administrador'),
     
     (true, 'Fernanda Venturini', 'fernanda.venturini@biblioteca.com', 'fernanda.venturini',
-     'e4a97b3c22', '5c93a8bd1237eab4d691a92c58d2047f83610a6f39b7f7e46b29f5bd3e1289fa', 'Bibliotecário'),
+     'hmvjaxkmWoQl3CZazE54c5gkQo8xEHyR', '5c93a8bd1237eab4d691a92c58d2047f83610a6f39b7f7e46b29f5bd3e1289fa', 'Bibliotecário'),
      
     (true, 'Thiago Galhardo', 'thiago.galhardo@biblioteca.com', 'thiago.galhardo',
-     '9c51ad3e88', '1f8b5a7d35ac403fd418e2c3d6bba90ea7d92bd56e41c873ea2457b62012c9f8', 'Estagiário'),
+     '9c51ad0jHqDHz2641C3SUXbajkoeLqhm0WkcaA3e88', '1f8b5a7d35ac403fd418e2c3d6bba90ea7d92bd56e41c873ea2457b62012c9f8', 'Estagiário'),
     
     (true, 'Carolina Montebello', 'carolina.montebello@biblioteca.com', 'carolina.montebello',
-     'a8f3c9d27e', 'a74b215f3796fe82a3f8c4df4d928b7e8ab98fb2f421b31d9c873f67b03c6bbd', 'Estagiário')
+     'e46w10DDwYLwkmLZpxrytAhUdZmG39pt', 'a74b215f3796fe82a3f8c4df4d928b7e8ab98fb2f421b31d9c873f67b03c6bbd', 'Estagiário')
 ) AS dataset(status, nome, email, login, password_salt, password_hash, nome_cargo)            -- ALIAS TABELA VIRTUAL
 JOIN cargo_lookup c ON c.nome = dataset.nome_cargo;                                           -- JOIN PARA RESOLUÇÃO FK CARGO
