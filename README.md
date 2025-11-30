@@ -74,7 +74,7 @@ dir /B
 
 ### Criação do Database
 ```bash
-# Cria database com schema completo e conecta automaticamente
+# Cria database com schema completo e se conecta a ela automaticamente
 psql -U postgres -d postgres -f schema.sql
 ```
 
