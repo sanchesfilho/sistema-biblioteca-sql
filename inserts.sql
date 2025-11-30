@@ -11,6 +11,11 @@
 -- ESTE CÓDIGO UTILIZA CTEs (COMMON TABLE EXPRESSIONS) PARA RESOLVER DINAMICAMENTE AS CHAVES ESTRANGEIRAS,
 -- GARANTINDO A INTEGRIDADE DOS RELACIONAMENTOS MESMO QUE IDs VARIEM ENTRE AMBIENTES
 
+-- META-COMANDO PSQL
+-- DEFINE ENCODING DO CLIENTE PARA UTF8
+-- GARANTE CORRETA INTERPRETAÇÃO DE CARACTERES ESPECIAIS (ACENTOS, Ç, ETC)
+\encoding UTF8
+
 -- POVOAMENTO: TABELA "editora"
 INSERT INTO editora (nome, email) VALUES
 ('Intrínseca', 'contato@intrinseca.com.br'),
@@ -124,7 +129,10 @@ FROM (VALUES                                                                    
     ('USR20250007', true,  'Laura Ventura',    'laura.ventura@email.com',    '5511987654321', DATE '1993-11-03', 'Avenida Brigadeiro Faria Lima', '950'),
     ('USR20250008', false, 'Felipe Guimarães', 'felipe.guimaraes@email.com', '5511976543210', DATE '1989-04-27', 'Rua Oscar Freire', '77'),
     ('USR20250009', true,  'Renata Silveira',  'renata.silveira@email.com',  '5511965432109', DATE '2000-02-19', 'Travessa Doutor Mário Vinagre', '210'),
-    ('USR20250010', true,  'Eduardo Fontana',  'eduardo.fontana@email.com',  '5511954321098', DATE '1999-12-01', 'Rua Haddock Lobo', '350')
+    ('USR20250010', true,  'Eduardo Fontana',  'eduardo.fontana@email.com',  '5511954321098', DATE '1999-12-01', 'Rua Haddock Lobo', '350'),
+    ('USR20240001', false, 'Camila Ribeiro',   'camila.ribeiro@email.com',   '5511943210987', DATE '1990-06-25', 'Rua Augusta', '789'),
+    ('USR20240002', true,  'Rafael Torres',    'rafael.torres@email.com',    '5511932109876', DATE '1988-11-14', 'Alameda Santos', '321'),
+    ('USR20230001', false, 'Stefany Gouvêia',  'stefany.gouveia@email.com',  '5511921098765', DATE '1994-03-08', 'Praça da Sé', '654')
 ) AS dataset(cart_num, status, nome, email, tel, data_nasc, rua_endereco, numero_endereco)       -- ALIAS TABELA VIRTUAL
 JOIN endereco_lookup e ON e.rua = dataset.rua_endereco AND e.numero = dataset.numero_endereco;   -- JOIN PARA RESOLUÇÃO FK ENDEREÇO
 
@@ -203,7 +211,17 @@ INSERT INTO emprestimo (status, data, dev_prev, dev_real, cart_num_usuario, cod_
 (false, DATE '2025-10-29', DATE '2025-11-12', DATE '2025-11-15', 'USR20250003', 'LIV9786555522266E003'),
 (false, DATE '2025-11-01', DATE '2025-11-15', DATE '2025-11-18', 'USR20250010', 'LIV9788526234284E002'),
 (false, DATE '2025-11-05', DATE '2025-11-19', DATE '2025-11-22', 'USR20250002', 'LIV9788532530844E003'),
-(false, DATE '2025-11-08', DATE '2025-11-22', DATE '2025-11-25', 'USR20250007', 'LIV9788535933925E002');
+(false, DATE '2025-11-08', DATE '2025-11-22', DATE '2025-11-25', 'USR20250007', 'LIV9788535933925E002'),
+(false, DATE '2024-01-15', DATE '2024-01-29', DATE '2024-01-28', 'USR20250001', 'LIV9788533613409E002'),
+(false, DATE '2024-02-20', DATE '2024-03-05', DATE '2024-03-10', 'USR20250002', 'LIV9788532530844E001'),
+(false, DATE '2024-03-10', DATE '2024-03-24', DATE '2024-03-25', 'USR20250003', 'LIV9786555522266E002'),
+(false, DATE '2024-04-05', DATE '2024-04-19', DATE '2024-04-18', 'USR20250005', 'LIV9788580576467E002'),
+(false, DATE '2024-05-12', DATE '2024-05-26', DATE '2024-05-25', 'USR20250006', 'LIV9788535933925E003'),
+(false, DATE '2024-06-18', DATE '2024-07-02', DATE '2024-07-01', 'USR20250007', 'LIV9788525056009E001'),
+(false, DATE '2024-07-22', DATE '2024-08-05', DATE '2024-08-04', 'USR20250009', 'LIV9788526234284E001'),
+(false, DATE '2024-08-30', DATE '2024-09-13', DATE '2024-09-12', 'USR20250010', 'LIV9788533613409E004'),
+(false, DATE '2024-09-14', DATE '2024-09-28', DATE '2024-09-27', 'USR20240002', 'LIV9788532530844E004'),
+(false, DATE '2024-10-08', DATE '2024-10-22', DATE '2024-10-21', 'USR20250001', 'LIV9786555522266E001');
 
 -- POVOAMENTO: TABELA "multa" (OTIMIZADA; EMPREGO DE CTE)
 WITH emprestimo_lookup AS (                                             -- CTE PARA MAPEAMENTO EMPRÉSTIMOS→ID
@@ -217,13 +235,16 @@ SELECT                                                                  -- CONST
     dataset.data_pag,                                                   -- DATA PAGAMENTO (NULL SE PENDENTE)
     e.id                                                                -- ID EMPRÉSTIMO (RESOLVIDO VIA JOIN)
 FROM (VALUES                                                            -- DADOS EMBUTIDOS: MULTAS
-    (true, 12.00, DATE '2025-11-13', DATE '2025-11-14', 'USR20250001', 'LIV9788533613409E003'),   -- MULTA PAGA: USUÁRIO 01, EXEMPLAR 3409E003
-    (true, 18.00, DATE '2025-11-16', DATE '2025-11-17', 'USR20250003', 'LIV9786555522266E003'),   -- MULTA PAGA: USUÁRIO 03, EXEMPLAR 2266E003
-    (true, 24.00, DATE '2025-11-20', DATE '2025-11-21', 'USR20250010', 'LIV9788526234284E002'),   -- MULTA PAGA: USUÁRIO 10, EXEMPLAR 4284E002
-    (true, 30.00, DATE '2025-11-23', DATE '2025-11-25', 'USR20250002', 'LIV9788532530844E003'),   -- MULTA PAGA: USUÁRIO 02, EXEMPLAR 0844E003
-    (true, 18.00, DATE '2025-11-25', DATE '2025-11-25', 'USR20250007', 'LIV9788535933925E002'),   -- MULTA PAGA: USUÁRIO 07, EXEMPLAR 3925E002
-    (false, 12.00, DATE '2025-11-25', NULL, 'USR20250001', 'LIV9788535933925E001'),          -- MULTA PENDENTE: USUÁRIO 01, EXEMPLAR 3925E001
-    (false, 6.00, DATE '2025-11-26', NULL, 'USR20250002', 'LIV9788533613409E001')            -- MULTA PENDENTE: USUÁRIO 02, EXEMPLAR 3409E001
+    (true, 12.00, DATE '2025-11-13', DATE '2025-11-14', 'USR20250001', 'LIV9788533613409E003'),
+    (true, 18.00, DATE '2025-11-16', DATE '2025-11-17', 'USR20250003', 'LIV9786555522266E003'),
+    (true, 24.00, DATE '2025-11-20', DATE '2025-11-21', 'USR20250010', 'LIV9788526234284E002'),
+    (true, 30.00, DATE '2025-11-23', DATE '2025-11-25', 'USR20250002', 'LIV9788532530844E003'),
+    (true, 18.00, DATE '2025-11-25', DATE '2025-11-25', 'USR20250007', 'LIV9788535933925E002'),
+    (false, 12.00, DATE '2025-11-25', NULL, 'USR20250001', 'LIV9788535933925E001'),
+    (false, 6.00, DATE '2025-11-26', NULL, 'USR20250002', 'LIV9788533613409E001'),
+    (true, 15.00, DATE '2024-02-05', DATE '2024-02-10', 'USR20250001', 'LIV9788533613409E002'),
+    (true, 20.00, DATE '2024-03-12', DATE '2024-03-15', 'USR20250002', 'LIV9788532530844E001'),
+    (true, 10.00, DATE '2024-05-28', DATE '2024-05-30', 'USR20250006', 'LIV9788535933925E003')
 ) AS dataset(status, valor, data_venc, data_pag, cart_num_usuario, cod_exemplar)        -- ALIAS TABELA VIRTUAL
 JOIN emprestimo_lookup e ON e.cart_num_usuario = dataset.cart_num_usuario               -- JOIN PARA RESOLUÇÃO FK USUÁRIO
                       AND e.cod_exemplar = dataset.cod_exemplar;                        -- JOIN PARA RESOLUÇÃO FK EXEMPLAR
