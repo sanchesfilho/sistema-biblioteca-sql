@@ -3,7 +3,7 @@
 -- INSTITUIÇÃO: UNIVERSIDADE CRUZEIRO DO SUL
 -- DISCIPLINA: MODELAGEM DE BANCO DE DADOS
 -- EXPERIÊNCIA PRÁTICA — ENTREGA 4 (IMPLEMENTAÇÃO E MANIPULAÇÃO DE DADOS)
--- DATA: 26/11/2025
+-- DATA: 29/11/2025
 
 -- =============================================
 -- COMANDOS "UPDATE"
@@ -53,7 +53,8 @@ WHERE EXISTS (                                                       -- VERIFICA
 DELETE FROM multa                                                    -- REMOVE DA TABELA DE MULTAS
 WHERE status = true                                                  -- MULTAS QUITADAS
 AND data_pag < CURRENT_DATE - INTERVAL '1 year'                      -- PAGAMENTO ANTERIOR A 1 ANO
-AND valor < 50;                                                      -- VALOR INFERIOR A R$50
+AND valor < 50                                                       -- VALOR INFERIOR A R$50
+RETURNING *;                                                         -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
 
 -- DELETE 2: LIMPEZA DE HISTÓRICO DE EMPRÉSTIMOS (PRINCÍPIO DA MINIMIZAÇÃO - LGPD)
 DELETE FROM emprestimo e                                             -- REMOVE DA TABELA DE EMPRÉSTIMOS
@@ -65,7 +66,8 @@ AND NOT EXISTS (                                                     -- VERIFICA
     FROM multa m                                                     -- TABELA DE MULTAS
     WHERE m.id_emprestimo = e.id                                     -- CORRELAÇÃO COM EMPRÉSTIMO ATUAL
     AND m.status = false                                             -- MULTAS NÃO QUITADAS
-);
+)
+RETURNING *;                                                         -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
 
 -- DELETE 3: REMOÇÃO DE USUÁRIOS INATIVOS (PRINCÍPIO DA MINIMIZAÇÃO - LGPD)
 DELETE FROM usuario u                                                -- REMOVE DA TABELA DE USUÁRIOS
@@ -88,4 +90,5 @@ AND NOT EXISTS (                                                     -- VERIFICA
     FROM emprestimo e                                                -- TABELA DE EMPRÉSTIMOS
     WHERE e.cart_num_usuario = u.cart_num                            -- CORRELAÇÃO COM USUÁRIO ATUAL
     AND e.data > CURRENT_DATE - INTERVAL '1 year'                    -- ATIVIDADE NOS ÚLTIMOS 12 MESES
-);
+)
+RETURNING *;                                                         -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
