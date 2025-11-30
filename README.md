@@ -60,6 +60,17 @@ psql --version
 # Verificar se PostgreSQL\bin está no PATH
 echo %PATH% | findstr "PostgreSQL"
 ```
+### Clonagem do Repositório
+```bash
+# Clonar o repositório
+git clone https://github.com/sanchesfilho/sistema-biblioteca-sql.git
+
+# Navegar até a pasta do repositório
+cd sistema-biblioteca-sql
+
+# Verificar a estrutura de arquivos do projeto
+dir /B
+```
 
 ### Criação do Database
 ```bash
