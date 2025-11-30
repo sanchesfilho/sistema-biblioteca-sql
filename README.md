@@ -4,7 +4,7 @@
 **Instituição:** Universidade Cruzeiro do Sul  
 **Disciplina:** Modelagem de Banco de Dados  
 *Experiência prática*  
-**Data:** 27/11/2025  
+**Data:** 29/11/2025  
 
 ## Descrição do Projeto
 Sistema completo de banco de dados para gestão de biblioteca pública desenvolvido em PostgreSQL. Implementa cadastro de acervo, controle de empréstimos, gestão de usuários, cálculo automático de multas e relatórios analíticos.
