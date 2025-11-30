@@ -29,7 +29,9 @@ INSERT INTO editora (nome, email) VALUES
 ('Scipione', 'contato@scipione.com.br'),
 ('Principis', 'contato@principis.com.br'),
 ('Biblioteca Azul', 'contato@bibliotecaazul.com.br'),
-('Ecclesiae', 'contato@ecclesiae.com.br');
+('Ecclesiae', 'contato@ecclesiae.com.br')
+RETURNING *;                                                             -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
+
 
 -- POVOAMENTO: TABELA "livro" (OTIMIZADA; EMPREGO DE CTE)
 WITH editora_lookup AS (                                                 -- MAPEIA EDITORAS PARA RESOLUÇÃO DE FKs
@@ -54,7 +56,8 @@ FROM (VALUES                                                             -- DADO
     ('9788525056009', 'Admirável Mundo Novo', 2014, 312, 'Biblioteca Azul'),
     ('9788584910670', 'O Espírito da Música', 2017, 200, 'Ecclesiae')
 ) AS dataset(isbn, titulo, ano_pub, paginas, nome_editora)               -- ALIAS PARA TABELA VIRTUAL
-JOIN editora_lookup e ON e.nome = dataset.nome_editora;                  -- JOIN PARA RESOLUÇÃO DA FK
+JOIN editora_lookup e ON e.nome = dataset.nome_editora                   -- JOIN PARA RESOLUÇÃO DA FK
+RETURNING *;                                                             -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
 
 -- POVOAMENTO: TABELA "autor"
 INSERT INTO autor (nome, nacionalidade) VALUES
@@ -67,7 +70,9 @@ INSERT INTO autor (nome, nacionalidade) VALUES
 ('Walter Scott', 'Reino Unido'),
 ('George Orwell', 'Reino Unido'),
 ('Aldous Huxley', 'Reino Unido'),
-('Papa Bento XVI', 'Alemanha');
+('Papa Bento XVI', 'Alemanha')
+RETURNING *;                                                             -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
+
 
 -- POVOAMENTO: TABELA "livro_autor" (OTIMIZADA; EMPREGO DE CTE)
 WITH livro_lookup AS (                              -- CTE PARA MAPEAMENTO ISBN→ID LIVRO
@@ -93,7 +98,9 @@ FROM (VALUES                                          -- DADOS EMBUTIDOS: RELACI
     ('9788584910670', 'Papa Bento XVI')               -- O ESPÍRITO DA MÚSICA → PAPA BENTO XVI
 ) AS dataset(isbn_livro, nome_autor)                  -- ALIAS TABELA VIRTUAL
 JOIN livro_lookup l ON l.isbn = dataset.isbn_livro    -- JOIN PARA RESOLUÇÃO FK LIVRO
-JOIN autor_lookup a ON a.nome = dataset.nome_autor;   -- JOIN PARA RESOLUÇÃO FK AUTOR
+JOIN autor_lookup a ON a.nome = dataset.nome_autor    -- JOIN PARA RESOLUÇÃO FK AUTOR
+RETURNING *;                                          -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
+
 
 -- POVOAMENTO DA TABELA "endereco"
 INSERT INTO endereco (rua, numero, bairro, cidade, uf, complemento) VALUES
@@ -106,7 +113,9 @@ INSERT INTO endereco (rua, numero, bairro, cidade, uf, complemento) VALUES
 ('Avenida Brigadeiro Faria Lima', '950', 'Itaim Bibi', 'São Paulo', 'SP', 'Bloco B'),
 ('Rua Oscar Freire', '77', 'Jardins', 'São Paulo', 'SP', 'Apto 501'),
 ('Travessa Doutor Mário Vinagre', '210', 'Perdizes', 'São Paulo', 'SP', 'Casa 2'),
-('Rua Haddock Lobo', '350', 'Cerqueira César', 'São Paulo', 'SP', 'Sala 304');
+('Rua Haddock Lobo', '350', 'Cerqueira César', 'São Paulo', 'SP', 'Sala 304')
+RETURNING *;                                          -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
+
 
 -- POVOAMENTO DA TABELA "usuario" (OTIMIZADA; EMPREGO DE CTE)
 WITH endereco_lookup AS (                                                         -- CTE PARA MAPEAMENTO RUA/NÚMERO→ID
@@ -136,7 +145,9 @@ FROM (VALUES                                                                    
     ('USR20240002', true,  'Rafael Torres',    'rafael.torres@email.com',    '5511932109876', DATE '1988-11-14', 'Alameda Santos', '321'),
     ('USR20230001', false, 'Stefany Gouvêia',  'stefany.gouveia@email.com',  '5511921098765', DATE '1994-03-08', 'Praça da Sé', '654')
 ) AS dataset(cart_num, status, nome, email, tel, data_nasc, rua_endereco, numero_endereco)       -- ALIAS TABELA VIRTUAL
-JOIN endereco_lookup e ON e.rua = dataset.rua_endereco AND e.numero = dataset.numero_endereco;   -- JOIN PARA RESOLUÇÃO FK ENDEREÇO
+JOIN endereco_lookup e ON e.rua = dataset.rua_endereco AND e.numero = dataset.numero_endereco    -- JOIN PARA RESOLUÇÃO FK ENDEREÇO
+RETURNING *;                                                                                     -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
+
 
 -- POVOAMENTO: TABELA "exemplar" (OTIMIZADA; EMPREGO DE CTE)
 WITH livro_lookup AS (                        -- CTE PARA MAPEAMENTO ISBN→ID
@@ -197,8 +208,10 @@ FROM (VALUES                                                    -- DADOS EMBUTID
     
     -- O ESPÍRITO DA MÚSICA (2017)
     ('LIV9788584910670E001', true, DATE '2017-10-10', 'Estante E, Prateleira 1', '9788584910670')
-) AS dataset(cod, status, data_incl, local, isbn_livro)                                 -- ALIAS TABELA VIRTUAL
-JOIN livro_lookup l ON l.isbn = dataset.isbn_livro;                                     -- JOIN PARA RESOLUÇÃO FK LIVRO
+) AS dataset(cod, status, data_incl, local, isbn_livro)     -- ALIAS TABELA VIRTUAL
+JOIN livro_lookup l ON l.isbn = dataset.isbn_livro          -- JOIN PARA RESOLUÇÃO FK LIVRO
+RETURNING *;                                                -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
+
 
 -- POVOAMENTO: TABELA "emprestimo"
 INSERT INTO emprestimo (status, data, dev_prev, dev_real, cart_num_usuario, cod_exemplar) VALUES   -- INSERE EMPRESTIMOS
@@ -223,7 +236,9 @@ INSERT INTO emprestimo (status, data, dev_prev, dev_real, cart_num_usuario, cod_
 (false, DATE '2024-07-22', DATE '2024-08-05', DATE '2024-08-04', 'USR20250009', 'LIV9788526234284E001'),
 (false, DATE '2024-08-30', DATE '2024-09-13', DATE '2024-09-12', 'USR20250010', 'LIV9788533613409E004'),
 (false, DATE '2024-09-14', DATE '2024-09-28', DATE '2024-09-27', 'USR20240002', 'LIV9788532530844E004'),
-(false, DATE '2024-10-08', DATE '2024-10-22', DATE '2024-10-21', 'USR20250001', 'LIV9786555522266E001');
+(false, DATE '2024-10-08', DATE '2024-10-22', DATE '2024-10-21', 'USR20250001', 'LIV9786555522266E001')
+RETURNING *;                                                                                        -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
+
 
 -- POVOAMENTO: TABELA "multa" (OTIMIZADA; EMPREGO DE CTE)
 WITH emprestimo_lookup AS (                                             -- CTE PARA MAPEAMENTO EMPRÉSTIMOS→ID
@@ -249,13 +264,17 @@ FROM (VALUES                                                            -- DADOS
     (true, 10.00, DATE '2024-05-28', DATE '2024-05-30', 'USR20250006', 'LIV9788535933925E003')
 ) AS dataset(status, valor, data_venc, data_pag, cart_num_usuario, cod_exemplar)        -- ALIAS TABELA VIRTUAL
 JOIN emprestimo_lookup e ON e.cart_num_usuario = dataset.cart_num_usuario               -- JOIN PARA RESOLUÇÃO FK USUÁRIO
-                      AND e.cod_exemplar = dataset.cod_exemplar;                        -- JOIN PARA RESOLUÇÃO FK EXEMPLAR
+                      AND e.cod_exemplar = dataset.cod_exemplar                         -- JOIN PARA RESOLUÇÃO FK EXEMPLAR
+RETURNING *;                                                                            -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
+
 
 -- POVOAMENTO: TABELA "cargo"
 INSERT INTO cargo (status, nome, descricao, nivel_acesso) VALUES                                          -- INSERE CARGOS
 (true, 'Administrador', 'Gerencia sistema e cadastros, configura regras', 3),                             -- ADMIN: ACESSO TOTAL
 (true, 'Bibliotecário', 'Gerencia acervo, empréstimos e atendimento', 2),                                 -- BIBLIOTECÁRIO: ACESSO INTERMEDIÁRIO
-(true, 'Estagiário', 'Cadastra livros/usuários, monitora devoluções/multas, auxilia no atendimento', 1);  -- ESTAGIÁRIO: ACESSO BÁSICO
+(true, 'Estagiário', 'Cadastra livros/usuários, monitora devoluções/multas, auxilia no atendimento', 1)   -- ESTAGIÁRIO: ACESSO BÁSICO
+RETURNING *;                                                                                              -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
+
 
 -- POVOAMENTO: TABELA "funcionario" (OTIMIZADA; EMPREGO DE CTE)
 WITH cargo_lookup AS (                                                   -- CTE PARA MAPEAMENTO CARGO→ID
@@ -283,4 +302,5 @@ FROM (VALUES                                                                    
     (true, 'Carolina Montebello', 'carolina.montebello@biblioteca.com', 'carolina.montebello',
      'e46w10DDwYLwkmLZpxrytAhUdZmG39pt', 'a74b215f3796fe82a3f8c4df4d928b7e8ab98fb2f421b31d9c873f67b03c6bbd', 'Estagiário')
 ) AS dataset(status, nome, email, login, password_salt, password_hash, nome_cargo)            -- ALIAS TABELA VIRTUAL
-JOIN cargo_lookup c ON c.nome = dataset.nome_cargo;                                           -- JOIN PARA RESOLUÇÃO FK CARGO
+JOIN cargo_lookup c ON c.nome = dataset.nome_cargo                                            -- JOIN PARA RESOLUÇÃO FK CARGO
+RETURNING *;                                                                                  -- RETORNA REGISTROS REMOVIDOS PARA AUDITORIA
