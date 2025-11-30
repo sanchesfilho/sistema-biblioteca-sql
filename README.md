@@ -80,7 +80,8 @@ psql -U postgres -d postgres -f schema.sql
 
 ### População das Tabelas
 ```bash
-# Insere nas tabelas os dados de inserts.sql
+# Insere nas tabelas os dados de inserts.sql. 
+# O terminal retornará os dados inseridos. Pressione "enter" para continuar após cada conjunto de resultados.
 psql -U postgres -d biblioteca_publica -f inserts.sql
 ```
 
