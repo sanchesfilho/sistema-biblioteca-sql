@@ -24,6 +24,11 @@ COMMENT ON DATABASE biblioteca_publica IS E'Sistema integrado para gestão de bi
 -- PERMITE A CRIAÇÃO DA DATABASE E TABELAS COM UM ÚNICO SCRIPT
 \connect biblioteca_publica
 
+-- REDEFINIÇÃO DO ENCODING COMO UTF-8
+-- O COMANDO "\connect" PODE RESETAR CONFIGURAÇÕES DE SESSÃO, INCLUINDO ENCODING
+-- GARANTE A EXIBIÇÃO CORRETA DE ACENTOS NA DATABASE
+\encoding UTF8
+
 SET search_path TO pg_catalog,public;
 -- ddl-end --
 
