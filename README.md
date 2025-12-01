@@ -11,7 +11,7 @@ Sistema completo de banco de dados para gestão de biblioteca pública desenvolv
 
 ## Estrutura do Banco de Dados
 - **11 Tabelas** normalizadas seguindo as formas normais 1FN, 2FN e 3FN
-- **Relacionamentos** complexos (1:1, 1:0,1, 1:N, N:N) com integridade referencial
+- **Relacionamentos** complexos (1:1; 1:0,1; 1:N; N:N) com integridade referencial
 - **Chaves** primárias naturais e surrogates conforme melhor prática
 - **Constraints** de validação e unicidade
 
