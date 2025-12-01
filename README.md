@@ -34,16 +34,16 @@ Sistema completo de banco de dados para gestão de biblioteca pública desenvolv
 - _Consulta 2_: Top 5 livros mais emprestados do acervo  
 - _Consulta 3_: Multas pendentes com cálculo de dias em atraso
 - _Consulta 4_: Análise de usuários por faixa etária e métricas de uso
-- _Consulta 5_: Busca avançada por autores britânicos (2015-2020, +200 páginas)
+- _Consulta 5_: Busca avançada por autores
 
 ### `updates_deletes.sql`
 - Rotinas de manutenção e conformidade LGPD
-- _UPDATE 1_: Acréscimo de 50% em multas pendentes com mais de 10 dias
-- _UPDATE 2_: Suspensão de usuários com empréstimos ativos em atraso crítico (+20 dias)
-- _UPDATE 3_: Suspensão por inadimplência prolongada (+3 meses)
-- _DELETE 1_: Remoção de multas quitadas há mais de 1 ano (valor < R$50)
-- _DELETE 2_: Limpeza de empréstimos finalizados há mais de 3 anos
-- _DELETE 3_: Remoção de usuários inativos sem vínculos pendentes
+- _UPDATE 1_: Acréscimo de 50% em multas pendentes há mais de 10 dias
+- _UPDATE 2_: Suspensão de usuários com empréstimos ativos em atraso prolongado (>20 dias)
+- _UPDATE 3_: Suspensão por inadimplência prolongada (>3 meses)
+- _DELETE 1_: Remoção de multas quitadas há mais de 1 ano (Princípio da Minimização)
+- _DELETE 2_: Limpeza de empréstimos finalizados há mais de 1 ano (Princípio da Minimização)
+- _DELETE 3_: Remoção de usuários inativos sem vínculos pendentes (Princípio da Minimização)
 
 ## Pré-requisitos
 - PostgreSQL 18.0 ou superior
